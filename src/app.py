@@ -3,7 +3,6 @@ from load_data import cargar_datos
 from layout.menu import menu_layout
 from callbacks.nav_callbacks import registrar_callbacks
 import load_data as load_data
-import os
 
 
 # Paso 1: Inicializar la aplicación
@@ -25,5 +24,4 @@ registrar_callbacks(app,dframes)
 
 # Paso 5: Ejecutar servidor
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 8050))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(debug=True)
