@@ -14,7 +14,7 @@ def layout_grafico(df_mortalidad, df_codigos, df_divipola):
     print("Códigos únicos en COD_MUERTE:", df_mortalidad["COD_MUERTE"].unique())
 
     # 3. Definir los códigos de homicidio y agresión con armas de fuego (en mayúsculas)
-    codigos_violentos = ['X95', 'X93', 'X94']
+    codigos_violentos = ['X995', 'X993', 'X994']
 
     # 4. Filtrar solo los registros con esos códigos
     df_violentas = df_mortalidad[df_mortalidad["COD_MUERTE"].isin(codigos_violentos)]
