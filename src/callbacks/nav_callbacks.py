@@ -1,6 +1,6 @@
 from dash import Input, Output
-from mortalidadColombia.layout import menu, grafico01,grafico02,grafico03,grafico04,    grafico05, grafico06, grafico07  # Importar los módulos de layout
-import mortalidadColombia.utils.load_data as load_data
+from layout import menu, grafico01,grafico02,grafico03,grafico04,    grafico05, grafico06, grafico07  # Importar los módulos de layout
+import load_data as load_data
 
 
 def registrar_callbacks(app,dframes):

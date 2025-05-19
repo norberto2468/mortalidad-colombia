@@ -1,8 +1,8 @@
 from dash import Dash, dcc, html
-from mortalidadColombia.utils.load_data import cargar_datos
-from mortalidadColombia.layout.menu import menu_layout
-from mortalidadColombia.callbacks.nav_callbacks import registrar_callbacks
-import mortalidadColombia.utils.load_data as load_data
+from load_data import cargar_datos
+from layout.menu import menu_layout
+from callbacks.nav_callbacks import registrar_callbacks
+import load_data as load_data
 
 
 # Paso 1: Inicializar la aplicación
