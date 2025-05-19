@@ -3,54 +3,70 @@
 from dash import html, dcc
 import plotly.express as px
 import pandas as pd
-import requests
+import json
+import os
 
 def layout_grafico(df_mortalidad, df_codigos, df_divipola):
     """
-    Gráfico 1: Mapa coroplético de mortalidad por departamento en Colombia.
+    Mapa: Visualización de la distribución total de muertes por departamento en Colombia para el año 2019.
     """
 
-    # 1. Agrupar los datos por departamento y contar el total de muertes
+    # Agrupar los datos por departamento y contar el total de muertes
     df_total = df_mortalidad.groupby("COD_DEPARTAMENTO").size().reset_index(name="TOTAL")
 
-    # 2. Unir con df_divipola para obtener nombres y códigos DANE
+    # Unir con df_divipola para obtener nombres y códigos DANE
     df_merged = pd.merge(df_total, df_divipola, how="left", on="COD_DEPARTAMENTO")
 
-    # 3. Descargar el GeoJSON oficial de departamentos de Colombia (DANE)
-    # Este GeoJSON es confiable y compatible con Plotly
-    url_geojson = "https://gist.github.com/john-guerra/43c7656821069d00dcbc.js"
+    # Leer el GeoJSON local de departamentos de Colombia
+    geojson_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'Colombia.geo.json')
     try:
-        geojson_data = requests.get(url_geojson).json()
+        with open(geojson_path, encoding='utf-8') as f:
+            geojson_data = json.load(f)
     except Exception as e:
-        # Si falla la descarga, mostrar mensaje de error
         return html.Div([
-            html.H3("Error: No se pudo descargar el GeoJSON de departamentos de Colombia."),
+            html.H3("Error: No se pudo cargar el archivo local Colombia.geo.json."),
             html.Code(str(e))
         ])
 
-    # 4. Asegurar que los códigos DANE sean string para el cruce
-    df_merged['COD_DANE'] = df_merged['COD_DANE'].astype(str)
-    for feature in geojson_data['features']:
-        feature['properties']['DPTO'] = str(feature['properties']['DPTO'])
+    # DEPURACIÓN: imprime los valores únicos para comparar
+    print("DF COD_DANE únicos:", df_merged['COD_DANE'].unique())
+    print("GeoJSON keys:", geojson_data['features'][0]['properties'].keys())
+    print("GeoJSON DPTO únicos:", set([feature['properties']['DPTO'] for feature in geojson_data['features']]))
 
-    # 5. Crear el mapa coroplético con Plotly Express
+    # Asegura que los códigos DANE sean string y tengan dos dígitos
+    df_merged['COD_DANE'] = df_merged['COD_DANE'].astype(str).str.zfill(2)
+    # Si tienes códigos de municipio, toma solo los dos primeros dígitos
+    df_merged['COD_DANE'] = df_merged['COD_DANE'].str[:2]
+    for feature in geojson_data['features']:
+        feature['properties']['DPTO'] = str(feature['properties']['DPTO']).zfill(2)
+
+    # FILTRA SOLO LOS DEPARTAMENTOS QUE EXISTEN EN EL GEOJSON
+    geojson_dptos = set([feature['properties']['DPTO'] for feature in geojson_data['features']])
+    df_merged = df_merged[df_merged['COD_DANE'].isin(geojson_dptos)]
+
+    # Crear el mapa coroplético con Plotly Express
     fig = px.choropleth(
         df_merged,
         geojson=geojson_data,
-        locations='COD_DANE',  # Columna de tu DataFrame con el código DANE
-        featureidkey='properties.DPTO',  # Propiedad del GeoJSON con el código DANE
-        color='TOTAL',  # Columna con el valor a mostrar
+        locations='COD_DANE',
+        featureidkey='properties.DPTO',
+        color='TOTAL',
         color_continuous_scale='Reds',
         labels={'TOTAL': 'Muertes'},
-        title='Mapa de Mortalidad por Departamento en Colombia - 2019'
+        title='Mapa: Visualización de la distribución total de muertes por departamento en Colombia para el año 2019'
     )
 
-    # 6. Ajustar el mapa para que se centre en Colombia y no muestre el fondo gris
-    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_geos(
+        fitbounds="locations",
+        visible=False,
+        showcountries=True,
+        lataxis_range=[-5, 15],
+        lonaxis_range=[-82, -66]
+    )
+    fig.update_layout(margin={"r":0,"t":50,"l":0,"b":0})
 
-    # 7. Devolver el layout de Dash con el gráfico y un enlace para volver al menú
     return html.Div([
-        html.H3("Gráfico 1: Mapa de Mortalidad por Departamento (2019)"),
+        html.H3("Mapa: Visualización de la distribución total de muertes por departamento en Colombia para el año 2019"),
         dcc.Graph(figure=fig),
         dcc.Link("⬅️ Volver al menú", href="/")
     ])

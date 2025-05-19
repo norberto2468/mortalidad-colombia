@@ -16,7 +16,7 @@ def cargar_datos():
     # Construcción de rutas completas a los archivos Excel
     ruta_mortalidad = os.path.join(ruta_data, 'NoFetal2019.xlsx')
     ruta_codigos = os.path.join(ruta_data, 'CodigosDeMuerte.xlsx')
-    ruta_divipola = os.path.join(ruta_data, 'Divipola.xlsx')
+    ruta_divipola = os.path.join(ruta_data, 'DivipolaCE.xlsx')
 
     # Carga de archivos Excel en DataFrames
     df_mortalidad = pd.read_excel(ruta_mortalidad)
