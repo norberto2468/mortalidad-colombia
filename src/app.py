@@ -3,6 +3,7 @@ from load_data import cargar_datos
 from layout.menu import menu_layout
 from callbacks.nav_callbacks import registrar_callbacks
 import load_data as load_data
+import os
 
 
 # Paso 1: Inicializar la aplicación
@@ -15,6 +16,7 @@ mortalidad_df, codigos_df, divipola_df = cargar_datos()
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='contenido-principal')
+    
 ])
 
 # Paso 4: Registrar los callbacks de navegación
@@ -23,4 +25,5 @@ registrar_callbacks(app,dframes)
 
 # Paso 5: Ejecutar servidor
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8050))
+    app.run(host="0.0.0.0", port=port, debug=True)
