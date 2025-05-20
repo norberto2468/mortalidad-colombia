@@ -51,6 +51,13 @@ NOTAS IMPORTANTES:
 - Si experimentas problemas con la visualización de mapas, revisa la correspondencia entre los códigos DANE en tus archivos de datos y el GeoJSON.
 - Para personalizar los gráficos o agregar nuevas visualizaciones, edita o agrega archivos en la carpeta `src/layout/`.
 
+##  Despliegue  en Render
+
+Haz clic aquí para desplegar la aplicación en tu cuenta de Render:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/norberto2468/actividad4_aplicaciones)
+
+
 AUTORES:
 - Norberto Guerrero
 - William Ruiz
