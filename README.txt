@@ -55,7 +55,24 @@ NOTAS IMPORTANTES:
 
 Haz clic aquí para desplegar la aplicación en tu cuenta de Render:
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/norberto2468/actividad4_aplicaciones)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)]
+(https://render.com/deploy?repo=https://github.com/norberto2468/actividad4_aplicaciones)
+
+1. Haz clic en el botón "Deploy to Render" de arriba.
+2. Inicia sesión o crea una cuenta gratuita en [Render](https://render.com/).
+3. Render detectará automáticamente el archivo `render.yaml` y configurará el entorno necesario.
+4. Confirma la creación del servicio y espera a que Render instale las dependencias y despliegue la aplicación.
+5. Una vez finalizado el proceso, Render te proporcionará una URL pública para acceder a la aplicación.
+
+Enlace de la aplicación desplegada de ejemplo:  
+[https://desplegar-dash-render-9cjy.onrender.com](https://desplegar-dash-render-9cjy.onrender.com)
+
+Puedes monitorear y administrar el despliegue desde el panel de control de Render:  
+[https://dashboard.render.com/web/srv-d0lbbdogjchc73eu7gk0](https://dashboard.render.com/web/srv-d0lbbdogjchc73eu7gk0)
+
+> Nota: Si deseas desplegar tu propia instancia, solo necesitas tener acceso a este repositorio y 
+seguir los pasos anteriores. El proceso es automático y no requiere configuración adicional.
+
 
 
 AUTORES:
